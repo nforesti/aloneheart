@@ -1,3 +1,8 @@
+# HeartBeat Algortithm (confusing w/ framerate): 
+# FR^2 / HR
+# FR = Frame Rate
+# HR = Heart Rate (beats/min), should be 60
+
 # historically schumann resonance: 7.83 Hz (~469 beats/min) but in 2014 36
 screenWidth = 640;
 screenHeight = 360;
@@ -5,13 +10,13 @@ screenHeight = 360;
 #dictionary to add heartbeats to
 hearts = {
     "earth": {
-              "hr": 469,
-              "r": 43,
-              "g": 45,
-              "b": 56,
+              "hr": 7,
+              "r": 120,
+              "g": 171,
+              "b": 70,
               "xloc": screenWidth * .25,
               "yloc": screenHeight * .4 , 
-              "size":  20 
+              "size":  80 
               }
     }
 def setup():
@@ -24,12 +29,11 @@ def draw():
     clear()
     #smooth
     for beat in hearts:
-        fill(46);
-        print(beat);
-        print(hearts[beat]["xloc"]);
-        ellipse(hearts[beat]["xloc"], hearts[beat]["yloc"], 60-frameCount % hearts[beat]["size"], 60-frameCount % hearts[beat]["size"]);
+        beat = hearts[beat];
+        fill(beat["r"], beat["g"], beat["b"]);
+        ellipse(beat["xloc"], beat["yloc"], 60-(frameCount % beat["hr"])*3, 60-(frameCount % beat["hr"])*3);
     #notsmooth
-    if frameCount % 30 < 16:
-        ellipse(width * .5, height*.6, 60, 60); #big circle
-    if 15 < frameCount % 30 < 30:
-        ellipse(width * .5, height*.6, 30, 30); #small
+    if frameCount % 7 < 5:
+        ellipse(width * .5, height*.6, 120, 120); #big circle
+    if 5 < frameCount % 7 < 7:
+        ellipse(width * .5, height*.6, 110, 110); #small
