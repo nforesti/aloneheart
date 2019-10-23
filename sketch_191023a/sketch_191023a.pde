@@ -28,7 +28,7 @@ void setup() {
   hearts.put("" + (hearts.size() + 1), current);
     print("hearts after");
     print(hearts);
-  saveJSONObject(hearts, "heartrates.json");
+  saveJSONObject(hearts, "data/heartrates.json");
   hearts = loadJSONObject("heartrates.json");
     frameRate(60);
 
@@ -48,9 +48,4 @@ void draw() {
     if (frameCount % 7 > 5 && frameCount % 7 < 7)
         ellipse(width * .5, height * .6, 115, 115);
   }
-}
-
-void stop() {
-  print(hearts);
-  saveJSONObject(hearts, "heartrates.json");
 }
