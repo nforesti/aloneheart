@@ -22,25 +22,25 @@ byte[] outBytes = {(byte)0x01,(byte)0x80,(byte)0x00};  // tell MCP we want to re
 byte[] inBytes = new byte[3]; // used to hold the incoming data from MCP
 int MCP_SS = 8;  // the chip select pin number
 // VARIABLES FOR VISUALIZER
-int[] RawY;      // HOLDS HEARTBEAT WAVEFORM DATA
+/*int[] RawY;      // HOLDS HEARTBEAT WAVEFORM DATA
 color eggshell = color(255, 253, 248);  // background color
 //  THESE VARIABLES DETERMINE THE SIZE OF THE DATA WINDOWS
 int PulseWindowWidth;
 int PulseWindowHeight;
 int windowXmargin = 10;
-int windowYmargin = 45;
+int windowYmargin = 45;*/
 
 
 
 void setup(){
-  size(600, 600);  // Stage size
+//  size(600, 600);  // Stage size
   frameRate(100);  // ask for a fast frame rate
   GPIO.pinMode(MCP_SS,GPIO.OUTPUT);
   GPIO.pinMode(pulseLED,GPIO.OUTPUT);
   //printArray(SPI.list());
   MCP3008 = new SPI(SPI.list()[0]); // use SPI_0
   MCP3008.settings(1000000, SPI.MSBFIRST, SPI.MODE3);
-  rectMode(CENTER);
+/*  rectMode(CENTER);
   ellipseMode(CENTER);
   PulseWindowWidth = width-windowXmargin*2;
   PulseWindowHeight = height-windowYmargin*2;
@@ -49,7 +49,7 @@ void setup(){
 
   background(0);
   fill(eggshell);
-  drawDataWindow();     // draw the pulse window
+  drawDataWindow();     // draw the pulse window*/
   initPulseSensor();    // initialize the Pulse Sensor variables
   threshSetting = 550;  // adjust this as needed to avoid noise
 }
@@ -58,7 +58,7 @@ void setup(){
 void draw(){
   getPulse();  // sample the Pulse Sensor and try to find a beat
   //printRawValues();  // used for debugging
-  background(0);
+/*  background(0);
   noStroke();
   drawDataWindow();    // draw the pulse window
   drawPulseWaveform(); // draw the pulse wave
@@ -67,9 +67,9 @@ void draw(){
   text("Pulse Sensor Raspberry Pi",width/2,windowYmargin/2 + (textDescent()+textAscent())/2);    // tell them what you are
   text(BPM + " BPM     IBI: " + IBI + "mS      Rate: " + sampleIntervalMs + "mS",
   width/2, height-windowYmargin/2+(textDescent()+textAscent())/2); // print BPM, IBI, and sample rate
-
+*/
 }
-
+/*
 void drawDataWindow(){
     // DRAW OUT THE PULSE WINDOW AND BPM WINDOW RECTANGLES
     noStroke();
@@ -110,7 +110,7 @@ void outputLED(){
     GPIO.digitalWrite(pulseLED,GPIO.LOW);
   }
 }
-
+*/
 // USED FOR DEBUGGING ONLY. CONSOLE PRINT TAKES TIME AND BOGS DOWN PROCESSING
 void printRawValues(){
   println(sampleCounter+"\t"+Signal+"\t"+BPM+"\t"+IBI+"\t"+sampleIntervalMs);
