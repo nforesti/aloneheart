@@ -4,10 +4,7 @@ FR^2 / HR
 FR = Frame Rate
 HR = Heart Rate (beats/min), should be 60
 historically schumann resonance: 7.83 Hz (~469 beats/min) but in 2014 36 
-*/
 
-
-/*
 In data/heartrates.json, always start with AT LEAST:
 {
   "0": {
@@ -23,6 +20,7 @@ In data/heartrates.json, always start with AT LEAST:
 
 After each run, copy data from heartrates.json to data/heartrates.json
 */
+
     
 JSONObject hearts;
 JSONObject current = new JSONObject();
@@ -62,6 +60,12 @@ void draw() {
 
 
 void keyPressed() {
+  switch(key){
+    case 's':    // pressing 's' or 'S' will take a jpg of the processing window
+    case 'S':
+      saveFrame("PulseSensor-####.jpg");    // take a shot of that!
+      break;
+  }
   if (key == ENTER || key == ESC) {
     hearts.put("" + (hearts.size() ), current);
     saveJSONObject(hearts, "data/heartrates.json");
