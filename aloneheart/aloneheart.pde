@@ -29,7 +29,7 @@ void setup() {
   fullScreen();
   background(0);
   Integer hr = new Integer(int(random(1,60)));
-  Integer col = new Integer(int(random(25,215)));
+  Integer col = new Integer(int(random(25,200)));
   hearts = loadJSONObject("heartrates.json");
   current.put("hr", hr);
   current.put("r", col);
@@ -44,7 +44,7 @@ void setup() {
 void draw() {
   clear(); 
   // show already-measured heart beats
-  int col = int(millis()/100 * 1.3);
+  int col = int((millis() /1000) * 7);
   for (int i = 0 ; i < hearts.size(); i++){
     JSONObject beat = hearts.getJSONObject(""+i);
     if (beat != null){
@@ -55,7 +55,7 @@ void draw() {
     }
   }
   // earth heart beat ~ 7x / sec
-  col = int(millis()/100 * 1);
+  col = int(millis()/100 * .5);
   fill(120  - col, 171  - col, 70  - col);
   if (frameCount % 7 < 5)
     ellipse(displayWidth * .8, displayHeight * .3, 180, 180);
