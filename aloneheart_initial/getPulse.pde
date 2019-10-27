@@ -1,4 +1,4 @@
-
+/*
 // Initialize (seed) the pulse detector
 void initPulseSensor(){
   BPM = 0;
@@ -81,4 +81,4 @@ void getPulse(){
     amp = 0;
 
   }
-}
+}*/

@@ -1,7 +1,7 @@
-/*
+
 // Initialize (seed) the pulse detector
 void initPulseSensor(){
-  BPM = 0;
+  BPM = 1;
   IBI = 600;                  // 600ms per beat = 100 Beats Per Minute (BPM)
   Pulse = false;
   sampleCounter = 0;
@@ -53,10 +53,7 @@ void getPulse(){
         // IBI value is unreliable so discard it
         return;
       }
-
-
-
-      BPM = 60000 / IBI;                      // how many beats can fit into a minute? that's BPM!
+      BPM = 60000 / IBI;      
     }
   }
 
@@ -79,6 +76,21 @@ void getPulse(){
     IBI = 600;                  // 600ms per beat = 100 Beats Per Minute (BPM)
     Pulse = false;
     amp = 0;
-
   }
-}*/
+  println(BPM);
+  if (frameCount % 100 == 0){
+    println("in first if");
+    if (BPM != 0){
+      avgHR = (avgHR + BPM) / 10;
+      nowHR = BPM / 5;
+      println("avg " + avgHR);
+      println("now " + nowHR);
+    }
+  }
+}
+
+
+//for debugging
+void printRawValues(){
+  println(sampleCounter+"\t"+Signal+"\t"+BPM+"\t"+IBI+"\t"+sampleIntervalMs);
+}
