@@ -44,8 +44,8 @@ int MCP_SS = 8;  // the chip select pin number
 JSONObject hearts;
 JSONObject current = new JSONObject();
 int FR = 100;
-int nowHR = 1;
-int avgHR = 0;
+int nowHR = 8;
+int avgHR = 8;
 
 void setup() {
   GPIO.pinMode(MCP_SS,GPIO.OUTPUT);
@@ -55,6 +55,7 @@ void setup() {
   initPulseSensor();    // initialize the Pulse Sensor variables
   threshSetting = 550;  // adjust this as needed to avoid noise
   
+  //size(600, 600);
   fullScreen();
   background(0);
   Integer col = new Integer(int(random(25,215)));
@@ -71,7 +72,7 @@ void setup() {
 void draw() {
   clear(); 
   getPulse();
-  printRawValues();  // used for debugging
+  //printRawValues();  // used for debugging
   // show already-measured heart beats
   int col = int((millis() /1000) * 7);
   for (int i = 0 ; i < hearts.size(); i++){
@@ -91,7 +92,7 @@ void draw() {
   else if (frameCount % 7 > 5 && frameCount % 7 < 7)
     ellipse(displayWidth * .8, displayHeight * .3, 175, 175);
   // participant's heart beat
-  fill(255,69,0);
+  fill(184-col/1.35,15-col/1.35,10-col/1.35);
   int ellipseSize = 250 - (frameCount % nowHR) * 3;
   if (120 - col < 10){
     ellipseSize = ellipseSize - col;
