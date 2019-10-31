@@ -47,6 +47,7 @@ int FR = 100;
 int nowHR = 8;
 int avgHR = 8;
 
+
 void setup() {
   GPIO.pinMode(MCP_SS,GPIO.OUTPUT);
   //printArray(SPI.list());
@@ -58,46 +59,52 @@ void setup() {
   //size(600, 600);
   fullScreen();
   background(0);
-  Integer col = new Integer(int(random(25,215)));
+  noStroke();
+  //Integer col = new Integer(int(random(25,215)));
+  
+  int radius = int((displayHeight * .6)/2 + 10);
+  print("radius " + radius);
   hearts = loadJSONObject("heartrates.json");
-  current.put("r", col);
-  current.put("g", col);
-  current.put("b", col);
-  current.put("xloc", new Integer(int(random(displayWidth))));
-  current.put("yloc", new Integer(int(random(displayHeight))));
-  current.put("size", new Integer(int(random(0, displayHeight * .15))));
+  current.put("r", new Integer(int(random(25,140))));
+  current.put("g", new Integer(int(random(10,50))));
+  current.put("b", new Integer(int(random(25,215))));
+  current.put("xloc", new Integer(int(random(-radius, radius))));
+  current.put("yloc", new Integer(int(random(-radius, radius))));
   frameRate(FR);
 }
 
 void draw() {
   clear(); 
   getPulse();
+  
+  int earthSize = int(displayHeight * .6);
+  int earthx = int(displayWidth * .3);
+  int earthy = int(displayHeight * .5);
   //printRawValues();  // used for debugging
   // show already-measured heart beats
   int col = int((millis() /1000) * 7);
+  
+  // earth heart beat ~ 7x / sec
+  fill(120  - col, 171  - col, 70  - col);
+  print("earthx " + earthx);
+  print("earthy " + earthy);
+  print("earthsize " + earthSize);
+  if (frameCount % 7 < 5)
+    ellipse(earthx, earthy, earthSize, earthSize);
+  else if (frameCount % 7 > 5 && frameCount % 7 < 7)
+    ellipse(earthx, earthy, earthSize-7, earthSize-7);
+  // participant's heart beat
+  fill(184-col*.5,15-col*.5,10-col*.5);
+  ellipse(displayWidth * .8, displayHeight *.5, 50 - (frameCount % nowHR) * 3, 50 - (frameCount % nowHR) * 3);
   for (int i = 0 ; i < hearts.size(); i++){
     JSONObject beat = hearts.getJSONObject(""+i);
     if (beat != null){
-      int grayCol = beat.getInt("r") - col; 
-      if (grayCol < 0){col = beat.getInt("r");}
-      fill(int(beat.getInt("r") - col));
-      ellipse(beat.getInt("xloc"), beat.getInt("yloc"), beat.getInt("size") - (frameCount % beat.getInt("hr")) * 3, beat.getInt("size") - (frameCount % beat.getInt("hr")) * 3);
+      //fill(int(beat.getInt("r") - col), int(beat.getInt("g") - col), int(beat.getInt("b") - col));
+      fill(int(beat.getInt("r")- col), int(beat.getInt("g") - col), int(beat.getInt("b") - col), 255 - col*2);
+      ellipse(earthx + beat.getInt("xloc"), earthy + beat.getInt("yloc"), 50 - (frameCount % beat.getInt("hr")) * 3, 50 - (frameCount % beat.getInt("hr")) * 3);
     }
     col = int(millis()/100 * .5);
   }
-  // earth heart beat ~ 7x / sec
-  fill(120  - col, 171  - col, 70  - col);
-  if (frameCount % 7 < 5)
-    ellipse(displayWidth * .8, displayHeight * .3, 180, 180);
-  else if (frameCount % 7 > 5 && frameCount % 7 < 7)
-    ellipse(displayWidth * .8, displayHeight * .3, 175, 175);
-  // participant's heart beat
-  fill(184-col/1.35,15-col/1.35,10-col/1.35);
-  int ellipseSize = 250 - (frameCount % nowHR) * 3;
-  if (120 - col < 10){
-    ellipseSize = ellipseSize - col;
-  }
-  ellipse(current.getInt("xloc"), current.getInt("yloc"), 250 - (frameCount % nowHR) * 3, 250 - (frameCount % nowHR) * 3);
 }
 
 
